@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b1b567f4-394b-453d-8223-45c39e4e38f1" name="Changes" comment="onglet messagerie du client web creee">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesboncomptesweb/src/components/CreateExpenseComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/lesboncomptesweb/src/components/CreateExpenseComponent.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Flask Main" />
+        <option value="Dockerfile" />
+        <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" module-name="lesBonComptes" is-module-sdk="true">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myUseModuleSdk" value="true" />
+    <option name="myModuleName" value="lesBonComptes" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2bbFARRg7aYCe9ArObUp4kAGgZH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.docker-compose.yml.app: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Flask server.lesBonComptes.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\bilel\\PycharmProjects\\lesBonComptes\\lesboncomptesweb\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mongo&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\bilel\PycharmProjects\lesBonComptes\lesboncomptesweb\src" />
+      <recent name="C:\Users\bilel\PycharmProjects\lesBonComptes\lesboncomptesweb\src\components" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.docker-compose.yml.app: Compose Deployment">
+    <configuration name="Flask" type="Python.FlaskServer" nameIsGenerated="true">
+      <module name="lesBonComptes" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="C:\Users\bilel\PycharmProjects\lesBonComptes\.venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (lesBonComptes)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="lesBonComptes" type="Python.FlaskServer">
+      <module name="lesBonComptes" />
+      <option name="target" value="$PROJECT_DIR$/app.py" />
+      <option name="targetType" value="PATH" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="JWT_SECRET_KEY" value="p@assw0rd" />
+        <env name="MONGO_DB" value="mongodb+srv://BilelMajdoub:Mongodb1998%40@bdd.uquucse.mongodb.net/api" />
+        <env name="STRIPE_PUBLIC_KEY" value="pk_test_51OkOaBGzoDqZ7QK6yJm70LzfLnMeuL3c83xR0wfyC1QJDIh5NFwy1hkBPX7RZkJrxJXMJfl0ZSkCszeX95NKCazJ00xHW7L3tT" />
+        <env name="STRIPE_SECRET_KEY" value="sk_test_51OkOaBGzoDqZ7QK61hB074V9SjzAueQfLrxEgYg6aoZEernB9xc5wH8nenSteqoAW7NE2dcJOOqYjFuJIBRqM9Pf00CKyzK2Rb" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\bilel\PycharmProjects\flaskProject\.venv\Scripts\python.exe" />
+      <option name="SDK_NAME" value="Python 3.11 (flaskProject)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.app: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="envFilePath" value="" />
+          <option name="services">
+            <list>
+              <option value="app" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.docker-compose.yml.app: Compose Deployment" />
+      <item itemvalue="Flask server.Flask" />
+      <item itemvalue="Flask server.lesBonComptes" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml.app: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-d68999036c7f-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.14475.56" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b1b567f4-394b-453d-8223-45c39e4e38f1" name="Changes" comment="" />
+      <created>1706475727710</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1706475727710</updated>
+      <workItem from="1706475751835" duration="4916000" />
+      <workItem from="1706514994608" duration="229000" />
+      <workItem from="1706528920499" duration="2601000" />
+      <workItem from="1706555814543" duration="2770000" />
+      <workItem from="1706558623569" duration="1673000" />
+      <workItem from="1706637222254" duration="6173000" />
+      <workItem from="1706701515163" duration="2283000" />
+      <workItem from="1706815327746" duration="3695000" />
+      <workItem from="1706990424501" duration="714000" />
+      <workItem from="1707044522713" duration="10100000" />
+      <workItem from="1707124856575" duration="606000" />
+      <workItem from="1707583128981" duration="1831000" />
+      <workItem from="1707659485913" duration="4220000" />
+      <workItem from="1707985566789" duration="8043000" />
+      <workItem from="1708073398955" duration="6798000" />
+      <workItem from="1708081395577" duration="1241000" />
+      <workItem from="1708163759149" duration="4847000" />
+      <workItem from="1708254180395" duration="1422000" />
+      <workItem from="1708262665042" duration="4381000" />
+      <workItem from="1708450810580" duration="2771000" />
+      <workItem from="1708624633505" duration="4169000" />
+      <workItem from="1708628862303" duration="307000" />
+      <workItem from="1708680470175" duration="5604000" />
+      <workItem from="1708698446980" duration="514000" />
+      <workItem from="1709061417789" duration="3785000" />
+      <workItem from="1709370148464" duration="5644000" />
+      <workItem from="1709375999309" duration="1491000" />
+      <workItem from="1709887708004" duration="7353000" />
+      <workItem from="1710068621188" duration="2184000" />
+      <workItem from="1710145470948" duration="21398000" />
+      <workItem from="1710189268135" duration="1914000" />
+      <workItem from="1710191213181" duration="250000" />
+      <workItem from="1710191488192" duration="196000" />
+      <workItem from="1710191703057" duration="1767000" />
+      <workItem from="1710230363321" duration="9245000" />
+      <workItem from="1710246378958" duration="403000" />
+      <workItem from="1710246803858" duration="5007000" />
+      <workItem from="1710252398247" duration="3730000" />
+      <workItem from="1710256191468" duration="1550000" />
+      <workItem from="1710339052674" duration="5157000" />
+      <workItem from="1710405040104" duration="1563000" />
+      <workItem from="1710406632541" duration="6227000" />
+      <workItem from="1710422089663" duration="4725000" />
+      <workItem from="1710490904030" duration="1765000" />
+      <workItem from="1710493412842" duration="840000" />
+      <workItem from="1710494460045" duration="2960000" />
+      <workItem from="1710749355284" duration="193000" />
+      <workItem from="1710851734740" duration="2538000" />
+      <workItem from="1711007941656" duration="1043000" />
+      <workItem from="1711010483734" duration="3022000" />
+      <workItem from="1711014138518" duration="6763000" />
+      <workItem from="1711096071641" duration="7846000" />
+      <workItem from="1711184044832" duration="6232000" />
+      <workItem from="1711295471131" duration="4018000" />
+      <workItem from="1711529605805" duration="12895000" />
+      <workItem from="1711634675553" duration="1555000" />
+      <workItem from="1711739599466" duration="756000" />
+      <workItem from="1711882002276" duration="3903000" />
+      <workItem from="1712085033921" duration="2685000" />
+      <workItem from="1712229454779" duration="6276000" />
+      <workItem from="1712907545196" duration="6686000" />
+      <workItem from="1713085115871" duration="12588000" />
+      <workItem from="1713187891596" duration="315000" />
+      <workItem from="1713191532787" duration="834000" />
+      <workItem from="1713431564896" duration="7490000" />
+      <workItem from="1713809173904" duration="2024000" />
+    </task>
+    <task id="LOCAL-00001" summary="Connexion via un compte cree specifiquement : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1706481071062</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706481071062</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Connexion via un compte cree specifiquement : 2 eme version">
+      <option name="closed" value="true" />
+      <created>1706529923846</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1706529923847</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Creation d'un groupe : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1706531489440</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706531489440</updated>
+    </task>
+    <task id="LOCAL-00004" summary="suppression de la session">
+      <option name="closed" value="true" />
+      <created>1706556246715</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706556246715</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fonctionnalite connexion utilisateur : version 2">
+      <option name="closed" value="true" />
+      <created>1706640745970</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1706640745970</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fonctionnalite connexion utilisateur : version 3 ( avec le jeton jwt )">
+      <option name="closed" value="true" />
+      <created>1706643825059</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1706643825059</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fonctionnalite creation de groupe : 2 eme version avec la route de creation">
+      <option name="closed" value="true" />
+      <created>1706818167570</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1706818167570</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fonctionnalite creation de groupe : 3 eme version avec la route pour inviter d'autres membres">
+      <option name="closed" value="true" />
+      <created>1706819286300</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1706819286300</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fonctionnalite de creation de depenses implementes : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1707659654807</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1707659654807</updated>
+    </task>
+    <task id="LOCAL-00010" summary="creation de la fonctionnalite de remboursements : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1707991610444</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1707991610444</updated>
+    </task>
+    <task id="LOCAL-00011" summary="creation de la fonctionnalite de payement avec le SDK Stripe : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1708169375570</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1708169375570</updated>
+    </task>
+    <task id="LOCAL-00012" summary="creation de la fonctionnalite de messagerie instantanee : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1708450926945</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1708450926945</updated>
+    </task>
+    <task id="LOCAL-00013" summary="creation de la fonctionnalite d'Export : 1 ere version">
+      <option name="closed" value="true" />
+      <created>1708454124471</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1708454124471</updated>
+    </task>
+    <task id="LOCAL-00014" summary="jeton jwt et uri masquee dans l'environnement de production">
+      <option name="closed" value="true" />
+      <created>1708629119790</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1708629119790</updated>
+    </task>
+    <task id="LOCAL-00015" summary="creation de la fonctionnalite : Statistiques">
+      <option name="closed" value="true" />
+      <created>1708682750441</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1708682750441</updated>
+    </task>
+    <task id="LOCAL-00016" summary="modifs du schema groupes">
+      <option name="closed" value="true" />
+      <created>1708686084697</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1708686084697</updated>
+    </task>
+    <task id="LOCAL-00017" summary="ajout de la route get_all_groups">
+      <option name="closed" value="true" />
+      <created>1709372516415</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1709372516415</updated>
+    </task>
+    <task id="LOCAL-00018" summary="ajout de la route get_group_by_id">
+      <option name="closed" value="true" />
+      <created>1709373999880</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1709373999880</updated>
+    </task>
+    <task id="LOCAL-00019" summary="ajout de la route delete_group">
+      <option name="closed" value="true" />
+      <created>1709375406145</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1709375406145</updated>
+    </task>
+    <task id="LOCAL-00020" summary="ajout de la route update_group">
+      <option name="closed" value="true" />
+      <created>1709375879563</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1709375879563</updated>
+    </task>
+    <task id="LOCAL-00021" summary="creation de la route supprimer une depense dans le fichier expense.py">
+      <option name="closed" value="true" />
+      <created>1709891346312</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1709891346312</updated>
+    </task>
+    <task id="LOCAL-00022" summary="creation de la route pour recuperer une depense dans le fichier expense.py">
+      <option name="closed" value="true" />
+      <created>1709893479154</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1709893479154</updated>
+    </task>
+    <task id="LOCAL-00023" summary="creation de la route pour recuperer toute les  depenses dans le fichier expense.py">
+      <option name="closed" value="true" />
+      <created>1709894055615</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1709894055615</updated>
+    </task>
+    <task id="LOCAL-00024" summary="creation de la route pour mettre a jour une depense">
+      <option name="closed" value="true" />
+      <created>1709894731161</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1709894731161</updated>
+    </task>
+    <task id="LOCAL-00025" summary="ajustement du soldes pour les groupes et des depenses">
+      <option name="closed" value="true" />
+      <created>1710155019468</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1710155019468</updated>
+    </task>
+    <task id="LOCAL-00026" summary="ajout de la fonction save_reimbursements">
+      <option name="closed" value="true" />
+      <created>1710164498327</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1710164498327</updated>
+    </task>
+    <task id="LOCAL-00027" summary="ajout de la fonction send_group_message">
+      <option name="closed" value="true" />
+      <created>1710169760629</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1710169760629</updated>
+    </task>
+    <task id="LOCAL-00028" summary="ajout d ela fonctionnalite CORS">
+      <option name="closed" value="true" />
+      <created>1710170014794</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1710170014794</updated>
+    </task>
+    <task id="LOCAL-00029" summary="ajout de la fonctionnalite pour lister les messages de groupes">
+      <option name="closed" value="true" />
+      <created>1710193341505</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1710193341505</updated>
+    </task>
+    <task id="LOCAL-00030" summary="tests de la route list_group_messages">
+      <option name="closed" value="true" />
+      <created>1710231963178</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1710231963178</updated>
+    </task>
+    <task id="LOCAL-00031" summary="ajout de la route delete_group_message pour la fonctionnalite messagerie">
+      <option name="closed" value="true" />
+      <created>1710233209368</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1710233209368</updated>
+    </task>
+    <task id="LOCAL-00032" summary="ajout de la route pour recuperer tous les utilisateurs dans auth.py">
+      <option name="closed" value="true" />
+      <created>1710236478212</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1710236478212</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Modification de la route register dans le fichier route auth.py">
+      <option name="closed" value="true" />
+      <created>1710239714386</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1710239714386</updated>
+    </task>
+    <task id="LOCAL-00034" summary="conteneriser l'API">
+      <option name="closed" value="true" />
+      <created>1710340106582</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1710340106582</updated>
+    </task>
+    <task id="LOCAL-00035" summary="ajout de la route facebook_login">
+      <option name="closed" value="true" />
+      <created>1711012256508</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1711012256508</updated>
+    </task>
+    <task id="LOCAL-00036" summary="creation de l'arborescence et d'une interface de connexion pour la partie connexion">
+      <option name="closed" value="true" />
+      <created>1711020376696</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1711020376696</updated>
+    </task>
+    <task id="LOCAL-00037" summary="connexion a la page de connexion puis redirection vers la page d'accueil">
+      <option name="closed" value="true" />
+      <created>1711186765969</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1711186765969</updated>
+    </task>
+    <task id="LOCAL-00038" summary="creation des composants pour chaque fonctionnalites">
+      <option name="closed" value="true" />
+      <created>1711190298403</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1711190298403</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Verification du token JWT avant l'envoi de la requete">
+      <option name="closed" value="true" />
+      <created>1711882165498</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1711882165498</updated>
+    </task>
+    <task id="LOCAL-00040" summary="optimisation de la route de la route de remboursements">
+      <option name="closed" value="true" />
+      <created>1711889963454</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1711889963454</updated>
+    </task>
+    <task id="LOCAL-00041" summary="suppression des deux fichiers de services">
+      <option name="closed" value="true" />
+      <created>1711890063713</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1711890063713</updated>
+    </task>
+    <task id="LOCAL-00042" summary="suppression des imports inutiles">
+      <option name="closed" value="true" />
+      <created>1712230743773</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1712230743773</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Connexion à l'application via un compte facebook.">
+      <option name="closed" value="true" />
+      <created>1712234193539</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1712234193539</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Redirection vers la creation de la page du Groupe">
+      <option name="closed" value="true" />
+      <created>1712237430826</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1712237430826</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Creation d'onglets pour depenses, le solde, le remboursement, et la zone de messagerie instantannee">
+      <option name="closed" value="true" />
+      <created>1712915472430</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1712915472430</updated>
+    </task>
+    <task id="LOCAL-00046" summary="ajout des onglets et debut de la creation de la messagerie">
+      <option name="closed" value="true" />
+      <created>1713110869510</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1713110869510</updated>
+    </task>
+    <task id="LOCAL-00047" summary="inserer des membres dans un groupe">
+      <option name="closed" value="true" />
+      <created>1713433674261</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1713433674261</updated>
+    </task>
+    <task id="LOCAL-00048" summary="onglet messagerie du client web creee">
+      <option name="closed" value="true" />
+      <created>1713446998855</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1713446998855</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="creation de la route pour mettre a jour une depense" />
+    <MESSAGE value="ajustement du soldes pour les groupes et des depenses" />
+    <MESSAGE value="ajout de la fonction save_reimbursements" />
+    <MESSAGE value="ajout de la fonction send_group_message" />
+    <MESSAGE value="ajout d ela fonctionnalite CORS" />
+    <MESSAGE value="ajout de la fonctionnalite pour lister les messages de groupes" />
+    <MESSAGE value="tests de la route list_group_messages" />
+    <MESSAGE value="ajout de la route delete_group_message pour la fonctionnalite messagerie" />
+    <MESSAGE value="ajout de la route pour recuperer tous les utilisateurs dans auth.py" />
+    <MESSAGE value="Modification de la route register dans le fichier route auth.py" />
+    <MESSAGE value="conteneriser l'API" />
+    <MESSAGE value="ajout de la route facebook_login" />
+    <MESSAGE value="creation de l'arborescence et d'une interface de connexion pour la partie connexion" />
+    <MESSAGE value="connexion a la page de connexion puis redirection vers la page d'accueil" />
+    <MESSAGE value="creation des composants pour chaque fonctionnalites" />
+    <MESSAGE value="Verification du token JWT avant l'envoi de la requete" />
+    <MESSAGE value="optimisation de la route de la route de remboursements" />
+    <MESSAGE value="suppression des deux fichiers de services" />
+    <MESSAGE value="suppression des imports inutiles" />
+    <MESSAGE value="Connexion à l'application via un compte facebook." />
+    <MESSAGE value="Redirection vers la creation de la page du Groupe" />
+    <MESSAGE value="Creation d'onglets pour depenses, le solde, le remboursement, et la zone de messagerie instantannee" />
+    <MESSAGE value="ajout des onglets et debut de la creation de la messagerie" />
+    <MESSAGE value="inserer des membres dans un groupe" />
+    <MESSAGE value="onglet messagerie du client web creee" />
+    <option name="LAST_COMMIT_MESSAGE" value="onglet messagerie du client web creee" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/lesBonComptes$lesBonComptes.coverage" NAME="lesBonComptes Coverage Results" MODIFIED="1711008072514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
