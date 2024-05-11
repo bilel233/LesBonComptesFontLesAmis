@@ -6,6 +6,13 @@ from ..models.user import User
 
 group_blueprint = Blueprint('group_blueprint', __name__)
 
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from mongoengine import ValidationError
+from ..models.group import Group
+from ..models.user import User
+
+group_blueprint = Blueprint('group_blueprint', __name__)
 
 @group_blueprint.route('/create', methods=['POST'])
 @jwt_required()
@@ -23,18 +30,17 @@ def create_group():
         return jsonify({'msg': 'Missing group name'}), 400
 
     try:
-
         group = Group(name=name, members=[current_user], creator=current_user)
         group.save()
-        return jsonify({'msg': f'Group "{name}" created successfully', 'group_id': str(group.id)}), 201
-
+        return jsonify({
+            'msg': f'Group "{name}" created successfully',
+            'group_id': str(group.id),
+            'name': group.name
+        }), 201
     except ValidationError as e:
-
         return jsonify({'msg': str(e)}), 400
     except Exception as e:
-
         return jsonify({'msg': 'An unexpected error occurred', 'error': str(e)}), 500
-
 
 @group_blueprint.route('/join/<group_id>', methods=['POST'])
 @jwt_required()

@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 
-
 interface GroupData {
   id: string;
   name: string;
@@ -20,10 +19,10 @@ interface CreateGroupFormProps {
 }
 
 const CreateGroupForm: React.FC<CreateGroupFormProps> = ({ onCreate }) => {
-  const [groupName, setGroupName] = useState('');
+  const [groupName, setGroupName] = useState<string>('');
   const toast = useToast();
 
-  const handleSubmit = async () => {
+ const handleSubmit = async () => {
   const token = localStorage.getItem('jwt');
   if (!token) {
     toast({
@@ -39,21 +38,29 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({ onCreate }) => {
   try {
     const response = await axios.post('http://localhost:5000/group/create', { name: groupName }, {
       headers: {
-        Authorization: `Bearer ${token}`  // Inclure le token dans les en-têtes
+        Authorization: `Bearer ${token}`
       }
     });
-    toast({
-      title: 'Group Created',
-      description: `You have created "${response.data.name}".`,
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    });
-    onCreate({id: response.data.group_id, name: response.data.name});
+
+    console.log("Response data:", response.data);
+
+    if (response.data && response.data.name && response.data.group_id) {
+      toast({
+        title: 'Group Created',
+        description: `You have created "${response.data.name}".`,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      onCreate({ id: response.data.group_id, name: response.data.name });
+    } else {
+      throw new Error('Invalid response data');
+    }
   } catch (error) {
+    console.error("Error details:", error.response || error);
     toast({
       title: 'Failed to create group',
-      description: error.response?.data?.message,
+      description: error.response?.data?.message || "Unexpected error occurred",
       status: 'error',
       duration: 5000,
       isClosable: true,
