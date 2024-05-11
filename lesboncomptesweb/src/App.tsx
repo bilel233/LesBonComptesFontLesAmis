@@ -1,34 +1,54 @@
-import * as React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
-import LoginForm from '../src/components/LoginForm';
+
+import React, { useState, useEffect } from 'react';
+import { ChakraProvider, Box, Text } from '@chakra-ui/react';
+import LoginForm from './components/LoginForm';
+import GroupComponent from './components/GroupComponent';
+
+interface User {
+  username: string;
+}
+
+interface GroupData {
+  id: string;
+  name: string;
+}
 
 const App: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [groups, setGroups] = useState<GroupData[]>([]);
 
-  const handleLogin = (username: string, password: string) => {
+  useEffect(() => {
+    if (user) {
+      fetchGroups();
+    }
+  }, [user]);
 
-    console.log("Login attempt with:", username, password);
+  const fetchGroups = async () => {
+    // ...
   };
 
-  const handleLoginWithGoogle = () => {
-
-    console.log("Login with Google requested");
-  };
-
-  const handleLoginWithFacebook = () => {
-
-    console.log("Login with Facebook requested");
+  const handleLogin = (username: string) => {
+    setUser({ username });
   };
 
   return (
     <ChakraProvider>
-      {}
-      <LoginForm
-        onLogin={handleLogin}
-        onLoginWithGoogle={handleLoginWithGoogle}
-        onLoginWithFacebook={handleLoginWithFacebook}
-      />
+      {!user ? (
+        <LoginForm
+          onLogin={handleLogin}
+          onLoginWithGoogle={() => {}}
+          onLoginWithFacebook={() => {}}
+        />
+      ) : (
+        <Box>
+          <Text>Welcome, {user.username}</Text>
+          {groups.map(group => (
+            <GroupComponent key={group.id} groupData={group} />
+          ))}
+        </Box>
+      )}
     </ChakraProvider>
   );
-}
+};
 
 export default App;

@@ -1,19 +1,20 @@
+
 import React, { useState } from 'react';
-import axios from 'axios';
 import {
   Box, Button, FormControl, FormLabel, Input, Stack, useColorModeValue, useToast, Icon,
-  Flex, Grid, useBreakpointValue
+  Flex, useBreakpointValue
 } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
+import axios from "axios";
 
 interface LoginProps {
-  onLogin: (username: string, password: string) => void;
+  onLogin: (username: string) => void;
   onLoginWithGoogle: () => void;
   onLoginWithFacebook: () => void;
 }
 
-const LoginForm: React.FC<LoginProps> = ({ onLoginWithGoogle }) => {
+const LoginForm: React.FC<LoginProps> = ({ onLogin, onLoginWithGoogle, onLoginWithFacebook }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const toast = useToast();
@@ -24,11 +25,12 @@ const LoginForm: React.FC<LoginProps> = ({ onLoginWithGoogle }) => {
       const response = await axios.post(`${apiUrl}/auth/login`, { username, password });
       toast({
         title: 'Login Successful',
-        description: response.data.access_token,
+        description: 'You are now logged in.',
         status: 'success',
         duration: 9000,
         isClosable: true,
       });
+      onLogin(username);
     } catch (error) {
       toast({
         title: 'Login Failed',
@@ -39,11 +41,6 @@ const LoginForm: React.FC<LoginProps> = ({ onLoginWithGoogle }) => {
       });
     }
   };
-
-  const handleFacebookLogin = () => {
-    window.location.href = `${apiUrl}/auth/facebook_login`;
-  };
-
 
   return (
     <Flex align="center" justify="center" height="100vh">
@@ -63,7 +60,7 @@ const LoginForm: React.FC<LoginProps> = ({ onLoginWithGoogle }) => {
           <Button leftIcon={<Icon as={FcGoogle} />} width="full" mt={2} onClick={onLoginWithGoogle}>
             Login with Google
           </Button>
-          <Button leftIcon={<Icon as={FaFacebook} />} width="full" mt={2} colorScheme="facebook" onClick={handleFacebookLogin}>
+          <Button leftIcon={<Icon as={FaFacebook} />} width="full" mt={2} colorScheme="facebook" onClick={onLoginWithFacebook}>
             Login with Facebook
           </Button>
         </Stack>

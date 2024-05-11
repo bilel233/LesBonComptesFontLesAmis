@@ -1,10 +1,8 @@
-
 from flask import request, jsonify, Blueprint, url_for, current_app, flash, redirect
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from ..models.user import User
-
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
@@ -12,8 +10,10 @@ auth_blueprint = Blueprint('auth_blueprint', __name__)
 facebook_blueprint = make_facebook_blueprint(
     client_id="1554210685119210",
     client_secret="66b0c16ed4ca5f1842d85641fe964a6b",
-    redirect_to='auth.facebook_login'
+    redirect_to='facebook_login'
 )
+
+
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():
@@ -21,18 +21,14 @@ def register():
     username = data.get('username')
     password = data.get('password')
 
-
     if not username or not password:
         return jsonify({'message': 'Le nom d’utilisateur et le mot de passe sont requis'}), 400
-
 
     if len(password) < 8:
         return jsonify({'message': 'Le mot de passe doit contenir au moins 8 caractères'}), 400
 
-
     if User.objects(username=username).first() is not None:
         return jsonify({'message': "Nom d'utilisateur déjà pris"}), 400
-
 
     user = User.create_user(username, password)
     return jsonify({'message': f'Utilisateur {user.username} créé avec succès'}), 201
@@ -51,6 +47,7 @@ def login():
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({'message': 'Identifiants invalides'}), 401
+
 
 @auth_blueprint.route('/user/<username>', methods=['GET'])
 @jwt_required()
@@ -102,11 +99,9 @@ def get_all_users():
     # On recupere tous les utilisateurs de la BDD
     users = User.objects.all()
 
-
     users_list = [{'username': user.username} for user in users]
 
     return jsonify(users_list), 200
-
 
 
 # Route pour la connexion via Facebook
@@ -114,7 +109,10 @@ def get_all_users():
 def facebook_login():
     if not facebook.authorized:
         return redirect(url_for('facebook.login'))
-    resp = facebook.get('/me?fields=id,name,email')
-    assert resp.ok, resp.text
-    # Gestion des données de l'utilisateur
-    return f"Bonjour, {resp.json()['name']}!"
+    try:
+        resp = facebook.get('/me?fields=id,name,email')
+        resp.raise_for_status()
+        user_info = resp.json()
+        return jsonify(user_info), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
