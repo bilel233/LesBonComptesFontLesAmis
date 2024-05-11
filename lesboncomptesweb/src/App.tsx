@@ -1,8 +1,9 @@
-
+// App.tsx
 import React, { useState, useEffect } from 'react';
-import { ChakraProvider, Box, Text } from '@chakra-ui/react';
+import { ChakraProvider, Box, Text, VStack } from '@chakra-ui/react';
 import LoginForm from './components/LoginForm';
 import GroupComponent from './components/GroupComponent';
+import CreateGroupForm from './components/CreateGroupForm';
 
 interface User {
   username: string;
@@ -24,11 +25,15 @@ const App: React.FC = () => {
   }, [user]);
 
   const fetchGroups = async () => {
-    // ...
+    // Implémentez la logique pour récupérer les groupes ici
   };
 
   const handleLogin = (username: string) => {
     setUser({ username });
+  };
+
+  const handleCreateGroup = (group: GroupData) => {
+    setGroups([...groups, group]); // Ajouter le nouveau groupe à la liste
   };
 
   return (
@@ -40,12 +45,15 @@ const App: React.FC = () => {
           onLoginWithFacebook={() => {}}
         />
       ) : (
-        <Box>
-          <Text>Welcome, {user.username}</Text>
+        <VStack spacing={4}>
+          <Box>
+            <Text>Welcome, {user.username}</Text>
+            <CreateGroupForm onCreate={handleCreateGroup} />
+          </Box>
           {groups.map(group => (
             <GroupComponent key={group.id} groupData={group} />
           ))}
-        </Box>
+        </VStack>
       )}
     </ChakraProvider>
   );

@@ -20,27 +20,29 @@ const LoginForm: React.FC<LoginProps> = ({ onLogin, onLoginWithGoogle, onLoginWi
   const toast = useToast();
   const apiUrl = 'http://localhost:5000';
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${apiUrl}/auth/login`, { username, password });
-      toast({
-        title: 'Login Successful',
-        description: 'You are now logged in.',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
-      onLogin(username);
-    } catch (error) {
-      toast({
-        title: 'Login Failed',
-        description: error.response?.data?.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  };
+ const handleLogin = async () => {
+  try {
+    const response = await axios.post(`${apiUrl}/auth/login`, { username, password });
+    toast({
+      title: 'Login Successful',
+      description: 'You are now logged in.',
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    });
+    localStorage.setItem('jwt', response.data.access_token);
+    onLogin(username);
+  } catch (error) {
+    toast({
+      title: 'Login Failed',
+      description: error.response?.data?.message,
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    });
+  }
+};
+
 
   return (
     <Flex align="center" justify="center" height="100vh">
