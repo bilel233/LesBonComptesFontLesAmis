@@ -1,4 +1,3 @@
-// App.tsx
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, Box, Text, VStack } from '@chakra-ui/react';
 import LoginForm from './components/LoginForm';
@@ -18,22 +17,22 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [groups, setGroups] = useState<GroupData[]>([]);
 
-  useEffect(() => {
-    if (user) {
-      fetchGroups();
-    }
-  }, [user]);
-
-  const fetchGroups = async () => {
-    // Implémentez la logique pour récupérer les groupes ici
-  };
-
   const handleLogin = (username: string) => {
     setUser({ username });
+
+  };
+
+
+  const handleLoginWithGoogle = () => {
+    console.log("Login with Google");
+  };
+
+  const handleLoginWithFacebook = () => {
+    console.log("Login with Facebook");
   };
 
   const handleCreateGroup = (group: GroupData) => {
-    setGroups([...groups, group]); // Ajouter le nouveau groupe à la liste
+    setGroups([...groups, group]);
   };
 
   return (
@@ -41,15 +40,13 @@ const App: React.FC = () => {
       {!user ? (
         <LoginForm
           onLogin={handleLogin}
-          onLoginWithGoogle={() => {}}
-          onLoginWithFacebook={() => {}}
+          onLoginWithGoogle={handleLoginWithGoogle}
+          onLoginWithFacebook={handleLoginWithFacebook}
         />
       ) : (
         <VStack spacing={4}>
-          <Box>
-            <Text>Welcome, {user.username}</Text>
-            <CreateGroupForm onCreate={handleCreateGroup} />
-          </Box>
+          <Text>Welcome, {user.username}</Text>
+          <CreateGroupForm onCreate={handleCreateGroup} />
           {groups.map(group => (
             <GroupComponent key={group.id} groupData={group} />
           ))}

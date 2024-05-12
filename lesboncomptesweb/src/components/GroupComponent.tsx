@@ -1,3 +1,4 @@
+// GroupComponent.tsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -7,11 +8,11 @@ import {
   Tab,
   TabPanel
 } from '@chakra-ui/react';
+import InviteMembersForm from './InviteMembersForm';
 
 interface GroupData {
   id: string;
   name: string;
-
 }
 
 interface GroupComponentProps {
@@ -29,6 +30,7 @@ const GroupComponent: React.FC<GroupComponentProps> = ({ groupData }) => {
           <Tab>Soldes</Tab>
           <Tab>Remboursements</Tab>
           <Tab>Messages</Tab>
+          <Tab>Inviter</Tab> {/* Ajout d'un onglet pour les invitations */}
         </TabList>
 
         <TabPanels>
@@ -43,6 +45,10 @@ const GroupComponent: React.FC<GroupComponentProps> = ({ groupData }) => {
           </TabPanel>
           <TabPanel>
             <p>Contenu des messages...</p>
+          </TabPanel>
+          <TabPanel>
+            {/* Intégration du formulaire d'invitation */}
+            <InviteMembersForm groupId={groupData.id} />
           </TabPanel>
         </TabPanels>
       </Tabs>
