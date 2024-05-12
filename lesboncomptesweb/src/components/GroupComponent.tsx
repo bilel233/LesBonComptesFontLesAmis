@@ -1,4 +1,3 @@
-// GroupComponent.tsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -8,7 +7,9 @@ import {
   Tab,
   TabPanel
 } from '@chakra-ui/react';
+import MessagingComponent from '../components/MessagingComponent';
 import InviteMembersForm from './InviteMembersForm';
+import GroupBalances from './GroupBalances';
 
 interface GroupData {
   id: string;
@@ -17,10 +18,11 @@ interface GroupData {
 
 interface GroupComponentProps {
   groupData: GroupData;
+  userId: string;
 }
 
-const GroupComponent: React.FC<GroupComponentProps> = ({ groupData }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+const GroupComponent: React.FC<GroupComponentProps> = ({ groupData, userId }) => {
+  const [selectedTab, setSelectedTab] = useState<number>(0);
 
   return (
     <Box p={5} shadow="md" borderWidth="1px">
@@ -30,24 +32,19 @@ const GroupComponent: React.FC<GroupComponentProps> = ({ groupData }) => {
           <Tab>Soldes</Tab>
           <Tab>Remboursements</Tab>
           <Tab>Messages</Tab>
-          <Tab>Inviter</Tab> {/* Ajout d'un onglet pour les invitations */}
+          <Tab>Inviter</Tab>
         </TabList>
 
         <TabPanels>
+          <TabPanel><p>Contenu des dépenses...</p></TabPanel>
           <TabPanel>
-            <p>Contenu des dépenses...</p>
+            <GroupBalances groupId={groupData.id} />
+          </TabPanel>
+          <TabPanel><p>Contenu des remboursements...</p></TabPanel>
+          <TabPanel>
+            <MessagingComponent groupId={groupData.id} userId={userId} />
           </TabPanel>
           <TabPanel>
-            <p>Contenu des soldes...</p>
-          </TabPanel>
-          <TabPanel>
-            <p>Contenu des remboursements...</p>
-          </TabPanel>
-          <TabPanel>
-            <p>Contenu des messages...</p>
-          </TabPanel>
-          <TabPanel>
-            {/* Intégration du formulaire d'invitation */}
             <InviteMembersForm groupId={groupData.id} />
           </TabPanel>
         </TabPanels>

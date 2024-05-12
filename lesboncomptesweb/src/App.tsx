@@ -6,6 +6,7 @@ import CreateGroupForm from './components/CreateGroupForm';
 
 interface User {
   username: string;
+  id: string;
 }
 
 interface GroupData {
@@ -17,18 +18,16 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [groups, setGroups] = useState<GroupData[]>([]);
 
-  const handleLogin = (username: string) => {
-    setUser({ username });
-
+  const handleLogin = (username: string, userId: string) => {
+    setUser({ username, id: userId });
   };
 
-
   const handleLoginWithGoogle = () => {
-    console.log("Login with Google");
+
   };
 
   const handleLoginWithFacebook = () => {
-    console.log("Login with Facebook");
+
   };
 
   const handleCreateGroup = (group: GroupData) => {
@@ -39,7 +38,7 @@ const App: React.FC = () => {
     <ChakraProvider>
       {!user ? (
         <LoginForm
-          onLogin={handleLogin}
+          onLogin={(username) => handleLogin(username, 'some-user-id')}
           onLoginWithGoogle={handleLoginWithGoogle}
           onLoginWithFacebook={handleLoginWithFacebook}
         />
@@ -48,7 +47,7 @@ const App: React.FC = () => {
           <Text>Welcome, {user.username}</Text>
           <CreateGroupForm onCreate={handleCreateGroup} />
           {groups.map(group => (
-            <GroupComponent key={group.id} groupData={group} />
+            <GroupComponent key={group.id} groupData={group} userId={user.id} />
           ))}
         </VStack>
       )}
