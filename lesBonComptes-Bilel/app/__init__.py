@@ -1,5 +1,5 @@
 from flask import Flask
-
+import os
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from .models.user import db
@@ -13,18 +13,21 @@ from .routes.export import export_blueprint
 from .routes.statistics import statistics_blueprint
 
 
+from dotenv import load_dotenv
+
+load_dotenv()
 def create_app():
     app = Flask(__name__)
     CORS(app)
-    app.secret_key = "facebook"
-    app.config['JWT_SECRET_KEY'] = 'upgQ74wynPXNkeeD7V8M2Dnb3sd0V7enxSQAwJAWK3E='
+    app.secret_key = os.getenv('SECRET_KEY')
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 
     # Configuration de MongoDB
     app.config['MONGODB_SETTINGS'] = {
-        'host': 'mongodb+srv://BilelMajdoub:Mongodb1998%40@bdd.uquucse.mongodb.net/api'
+        'host': os.getenv('MONGODB_URI')
     }
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-    app.config['UPLOAD_FOLDER'] = "C:\\Users\\bilel\Desktop\SUPINFO\\3PROJ"
+    app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER')
 
     db.init_app(app)
     JWTManager(app)
