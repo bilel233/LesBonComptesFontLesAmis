@@ -224,3 +224,32 @@ def invite_members(group_id):
     group.save()
 
     return jsonify({'message': 'Membres invités avec succès'}), 200
+
+@group_blueprint.route('/user/<username>', methods=['GET'])
+@jwt_required()
+def get_groups_by_user(username):
+    """
+    Retrieves all groups where the specified user is a member.
+    """
+    try:
+        # Find the user by the given username
+        user = User.objects.get(username=username)
+
+        # Retrieve all groups where the user is a member
+        groups = Group.objects(members=user)
+
+        # Serialize the group information
+        groups_data = [{
+            'id': str(group.id),
+            'name': group.name,
+            'creator': group.creator.username if group.creator else 'Unknown',
+            'members': [{'username': member.username, 'id': str(member.id)} for member in group.members]
+        } for group in groups]
+
+        return jsonify(groups_data), 200
+    except DoesNotExist:
+        return jsonify({'message': 'User not found'}), 404
+    except ValidationError:
+        return jsonify({'message': 'Invalid data'}), 400
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
