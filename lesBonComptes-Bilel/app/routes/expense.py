@@ -7,15 +7,15 @@ from werkzeug.utils import secure_filename
 from ..models.expense import Expense
 from ..models.group import Group
 from ..models.user import User
-
+import logging
 # le blueprint expense
 expenses_blueprint = Blueprint('expenses_blueprint', __name__)
 
+logging.basicConfig(level=logging.DEBUG)
 
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @expenses_blueprint.route('/create_expense', methods=['POST'])
 @jwt_required()
@@ -30,28 +30,37 @@ def create_expense():
     if file.filename == '':
         return jsonify({'message': 'No selected file'}), 400
 
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
+    if not allowed_file(file.filename):
+        return jsonify({'message': 'File type not allowed'}), 400
 
-        expense_data = request.form
-        expense_date = datetime.strptime(expense_data['date'], '%Y-%m-%d')
-        group_id = expense_data.get('group_id')
-        group = Group.objects.get(id=group_id)
-        involved_usernames = expense_data.getlist('involved_members')
-        involved_members = User.objects(username__in=involved_usernames)
+    filename = secure_filename(file.filename)
+    upload_folder = current_app.config['UPLOAD_FOLDER']
 
-        weights = list(map(float, expense_data.getlist('weights')))
-        if len(weights) != len(involved_members):
-            weights = [1.0] * len(involved_members)
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder, exist_ok=True)
 
+    file_path = os.path.join(upload_folder, filename)
+    file.save(file_path)
+
+    expense_data = request.form
+    expense_date = datetime.strptime(expense_data['date'], '%Y-%m-%d')
+    group_id = expense_data.get('group_id')
+    group = Group.objects.get(id=group_id)
+
+    involved_usernames = expense_data.getlist('involved_members')
+    involved_members = User.objects(username__in=involved_usernames)
+
+    weights_input = expense_data.get('weights')
+    weights = list(map(float, weights_input.split(','))) if weights_input else [1.0] * len(involved_members)
+
+    # Création de l'objet Expense avec l'objet fichier
+    with open(file_path, 'rb') as file_obj:  # Ouvrir le fichier pour lecture binaire
         expense = Expense(
             title=expense_data['title'],
             amount=float(expense_data['amount']),
             date=expense_date,
             payer=payer,
-            receipt=file_path,
+            receipt=file_obj,
             category=expense_data['category'],
             group=group,
             involved_members=involved_members,
@@ -59,12 +68,7 @@ def create_expense():
         )
         expense.save()
 
-        return jsonify({'message': 'Expense created successfully'}), 201
-    else:
-        return jsonify({'message': 'File type not allowed'}), 400
-
-
-
+    return jsonify({'message': 'Expense created successfully'}), 201
 
 
 @expenses_blueprint.route('/get_expense/<expense_id>', methods=['GET'])
