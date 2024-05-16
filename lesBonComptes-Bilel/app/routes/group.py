@@ -12,7 +12,6 @@ from mongoengine import ValidationError
 from ..models.group import Group
 from ..models.user import User
 
-group_blueprint = Blueprint('group_blueprint', __name__)
 
 @group_blueprint.route('/create', methods=['POST'])
 @jwt_required()
@@ -204,27 +203,42 @@ def update_group(group_id):
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
-
-@group_blueprint.route('/<group_id>/invite', methods=['POST'])
+@group_blueprint.route('/invite', methods=['POST'])
 @jwt_required()
-def invite_members(group_id):
-    """inviter des membres dans le groupe"""
-    current_user = get_jwt_identity()
-    group = Group.objects.get(id=group_id)
+def invite_members():
+    """Inviter des membres dans un groupe."""
+    current_user_username = get_jwt_identity()
+    current_user = User.objects(username=current_user_username).first()
 
-    if group.creator.username != current_user:
-        return jsonify({'message': 'Seul le créateur du groupe peut inviter des membres'}), 403
+    if not current_user:
+        return jsonify({"msg": "Utilisateur non trouvé"}), 404
 
     data = request.json
-    usernames = data.get('usernames', [])
-    invited_users = User.objects.filter(username__in=usernames)
+    group_name = data.get('group_name')
+    usernames = data.get('usernames')
 
-    for user in invited_users:
-        group.members.append(user)
-    group.save()
+    if not group_name or not usernames:
+        return jsonify({'msg': 'Le nom du groupe et les noms d\'utilisateur sont requis'}), 400
 
-    return jsonify({'message': 'Membres invités avec succès'}), 200
+    try:
+        group = Group.objects.get(name=group_name)
 
+        if group.creator != current_user:
+            return jsonify({'msg': 'Seul le créateur du groupe peut inviter des membres'}), 403
+
+        invited_users = User.objects(username__in=usernames)
+        for user in invited_users:
+            if user not in group.members:
+                group.members.append(user)
+
+        group.save()
+        return jsonify({'msg': 'Membres invités avec succès'}), 200
+    except Group.DoesNotExist:
+        return jsonify({'msg': 'Groupe non trouvé'}), 404
+    except User.DoesNotExist:
+        return jsonify({'msg': 'Un ou plusieurs utilisateurs non trouvés'}), 404
+    except Exception as e:
+        return jsonify({'msg': 'Une erreur s\'est produite', 'error': str(e)}), 500
 @group_blueprint.route('/user/<username>', methods=['GET'])
 @jwt_required()
 def get_groups_by_user(username):

@@ -3,7 +3,7 @@ from mongoengine.fields import StringField, ListField, ReferenceField
 
 
 class Group(Document):
-    name = StringField(required=True)
+    name = StringField(required=True,unique=True)
     members = ListField(ReferenceField('User'))
     creator = ReferenceField('User', required=True)
 

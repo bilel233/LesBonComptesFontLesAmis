@@ -35,7 +35,7 @@ const InviteMembersForm: React.FC<InviteMembersProps> = ({ groupId }) => {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/group/${groupId}/invite`, { usernames: usernames.split(',') }, {
+      const response = await axios.post(`${apiUrl}/group/invite`, { usernames: usernames.split(',') }, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

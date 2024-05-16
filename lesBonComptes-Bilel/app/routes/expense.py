@@ -16,18 +16,19 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @expenses_blueprint.route('/create_expense', methods=['POST'])
 @jwt_required()
 def create_expense():
     current_user_username = get_jwt_identity()
-    payer = User.objects(username=current_user_username).first()
+    payer = User.objects.get(username=current_user_username)
 
     if 'receipt' not in request.files:
-        return jsonify({'message': 'Aucun fichier fourni'}), 400
+        return jsonify({'message': 'No file part'}), 400
 
     file = request.files['receipt']
     if file.filename == '':
-        return jsonify({'message': 'Aucun fichier sélectionné'}), 400
+        return jsonify({'message': 'No selected file'}), 400
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
@@ -35,21 +36,15 @@ def create_expense():
         file.save(file_path)
 
         expense_data = request.form
-        expense_date = datetime.strptime(expense_data['date'], '%d-%m-%Y')
+        expense_date = datetime.strptime(expense_data['date'], '%Y-%m-%d')
         group_id = expense_data.get('group_id')
-
-
-        try:
-            group = Group.objects.get(id=group_id)
-        except Group.DoesNotExist:
-            return jsonify({'message': 'Groupe non trouvé'}), 404
-
-
+        group = Group.objects.get(id=group_id)
         involved_usernames = expense_data.getlist('involved_members')
         involved_members = User.objects(username__in=involved_usernames)
 
-      #  if len(involved_members) != len(involved_usernames):
-       #     return jsonify({'message': 'Un ou plusieurs membres spécifiés n\'existent pas'}), 400
+        weights = list(map(float, expense_data.getlist('weights')))
+        if len(weights) != len(involved_members):
+            weights = [1.0] * len(involved_members)
 
         expense = Expense(
             title=expense_data['title'],
@@ -60,82 +55,48 @@ def create_expense():
             category=expense_data['category'],
             group=group,
             involved_members=involved_members,
-            weights=[]
+            weights=weights
         )
         expense.save()
 
-        return jsonify({'message': 'Dépense créée avec succès'}), 201
+        return jsonify({'message': 'Expense created successfully'}), 201
     else:
-        return jsonify({'message': 'Type de fichier non autorisé'}), 400
-@expenses_blueprint.route('/delete_expense/<expense_id>', methods=['DELETE'])
-@jwt_required()
-def delete_expense(expense_id):
-    current_user_username = get_jwt_identity()
-    current_user = User.objects(username=current_user_username).first()
+        return jsonify({'message': 'File type not allowed'}), 400
 
-    try:
-        expense = Expense.objects.get(id=expense_id)
-        expense.delete()
-        return jsonify({'message': 'Dépense supprimée avec succès'}), 200
-    except DoesNotExist:
-        return jsonify({'message': 'Dépense non trouvée'}), 404
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500
+
+
 
 
 @expenses_blueprint.route('/get_expense/<expense_id>', methods=['GET'])
 @jwt_required()
 def get_expense(expense_id):
-    """Recupere une depense selon son ID"""
-
     try:
         expense = Expense.objects.get(id=expense_id)
-
         expense_details = {
             'id': str(expense.id),
             'title': expense.title,
             'amount': expense.amount,
             'date': expense.date.strftime('%Y-%m-%d'),
             'payer': expense.payer.username,
-            'group': expense.group.name if expense.group else None,
-            'receipt': expense.receipt,
             'category': expense.category,
+            'receipt': expense.receipt,
             'involved_members': [member.username for member in expense.involved_members],
             'weights': expense.weights
         }
         return jsonify(expense_details), 200
     except DoesNotExist:
-        return jsonify({'message': 'Dépense non trouvée'}), 404
+        return jsonify({'message': 'Expense not found'}), 404
 
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500
-
-@expenses_blueprint.route('/get_all_expenses',methods=['GET'])
+@expenses_blueprint.route('/get_all_expenses', methods=['GET'])
 @jwt_required()
 def get_all_expenses():
-    """on recupere toute les depenses"""
-    try:
-
-        expenses = Expense.objects.all()  # On recupere toute les depenses
-
-        expenses_list = []
-        for expense in expenses:
-            expenses_list.append({
-                'id': str(expense.id),
-                'title': expense.title,
-                'amount': expense.amount,
-                'date': expense.date.strftime('%Y-%m-%d'),
-                'payer': expense.payer.username,
-                'group': expense.group.name if expense.group else "N/A",
-                'receipt': expense.receipt,
-                'category': expense.category,
-                'involved_members': [member.username for member in expense.involved_members],
-                'weights': expense.weights
-            })
-
-        return jsonify(expenses_list), 200
-    except Exception as e:
-        return jsonify({'message': 'Erreur lors de la récupération des dépenses: {}'.format(str(e))}),
+    sort_by = request.args.get('sort_by', 'date')
+    sort_order = request.args.get('sort_order', 'asc')
+    expenses = Expense.objects().order_by(f"{'-' if sort_order == 'desc' else ''}{sort_by}")
+    expenses_list = [{'id': str(exp.id), 'title': exp.title, 'amount': exp.amount,
+                      'date': exp.date.strftime('%Y-%m-%d'), 'payer': exp.payer.username,
+                      'category': exp.category, 'receipt': exp.receipt} for exp in expenses]
+    return jsonify(expenses_list), 200
 
 
 @expenses_blueprint.route('/update_expense/<expense_id>', methods=['PUT'])
