@@ -5,28 +5,25 @@ import {
   FormControl,
   FormLabel,
   Input,
-  useToast,
   VStack,
-  useBreakpointValue,
-  Textarea
+  useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 
-interface InviteMembersProps {
-  groupId: string;
+interface InviteMembersFormProps {
+  groupName: string;
 }
 
-const InviteMembersForm: React.FC<InviteMembersProps> = ({ groupId }) => {
-  const [usernames, setUsernames] = useState<string>('');
+const InviteMembersForm: React.FC<InviteMembersFormProps> = ({ groupName }) => {
+  const [usernames, setUsernames] = useState('');
   const toast = useToast();
-  const apiUrl = 'http://localhost:5000';
+  const token = localStorage.getItem('jwt');
 
   const handleInviteMembers = async () => {
-    const token = localStorage.getItem('jwt');
     if (!token) {
       toast({
         title: 'Authentication Error',
-        description: 'No token found, please login again.',
+        description: 'Please log in to invite members.',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -34,24 +31,28 @@ const InviteMembersForm: React.FC<InviteMembersProps> = ({ groupId }) => {
       return;
     }
 
+    const payload = {
+      group_name: groupName,
+      usernames: usernames.split(',').map(username => username.trim())
+    };
+
     try {
-      const response = await axios.post(`${apiUrl}/group/invite`, { usernames: usernames.split(',') }, {
+      await axios.post('http://localhost:5000/group/invite', payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      if (response.data) {
-        toast({
-          title: 'Invitation Sent',
-          description: 'Members have been invited successfully.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-      }
+      toast({
+        title: 'Invitation Sent',
+        description: 'Members have been invited successfully.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+      setUsernames('');
     } catch (error) {
       toast({
         title: 'Failed to Invite Members',
-        description: error.response?.data?.message || "Unexpected error occurred",
+        description: error.response?.data?.message || 'Unexpected error occurred',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -64,7 +65,7 @@ const InviteMembersForm: React.FC<InviteMembersProps> = ({ groupId }) => {
       <VStack spacing={4}>
         <FormControl isRequired>
           <FormLabel>Invite Members</FormLabel>
-          <Textarea
+          <Input
             placeholder="Enter usernames separated by commas"
             value={usernames}
             onChange={(e) => setUsernames(e.target.value)}

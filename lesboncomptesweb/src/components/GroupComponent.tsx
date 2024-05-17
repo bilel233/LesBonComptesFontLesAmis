@@ -69,7 +69,7 @@ const GroupComponent: React.FC<GroupComponentProps> = ({ groupData, userId }) =>
             <MessagingComponent groupId={groupData.id} userId={userId} />
           </TabPanel>
           <TabPanel>
-            <InviteMembersForm groupId={groupData.id} />
+            <InviteMembersForm groupName={groupData.name} />
           </TabPanel>
         </TabPanels>
       </Tabs>
