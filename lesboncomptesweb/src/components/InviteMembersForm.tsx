@@ -11,10 +11,10 @@ import {
 import axios from 'axios';
 
 interface InviteMembersFormProps {
-  groupName: string;
+  groupId: string;
 }
 
-const InviteMembersForm: React.FC<InviteMembersFormProps> = ({ groupName }) => {
+const InviteMembersForm: React.FC<InviteMembersFormProps> = ({ groupId }) => {
   const [usernames, setUsernames] = useState('');
   const toast = useToast();
   const token = localStorage.getItem('jwt');
@@ -32,7 +32,7 @@ const InviteMembersForm: React.FC<InviteMembersFormProps> = ({ groupName }) => {
     }
 
     const payload = {
-      group_name: groupName,
+      group_id: groupId,
       usernames: usernames.split(',').map(username => username.trim())
     };
 

@@ -8,9 +8,8 @@ from ..models.expense import Expense
 from ..models.group import Group
 from ..models.user import User
 import logging
-# le blueprint expense
-expenses_blueprint = Blueprint('expenses_blueprint', __name__)
 
+expenses_blueprint = Blueprint('expenses_blueprint', __name__)
 logging.basicConfig(level=logging.DEBUG)
 
 def allowed_file(filename):
@@ -54,7 +53,7 @@ def create_expense():
     weights = list(map(float, weights_input.split(','))) if weights_input else [1.0] * len(involved_members)
 
     # Création de l'objet Expense avec l'objet fichier
-    with open(file_path, 'rb') as file_obj:  # Ouvrir le fichier pour lecture binaire
+    with open(file_path, 'rb') as file_obj:
         expense = Expense(
             title=expense_data['title'],
             amount=float(expense_data['amount']),
@@ -69,7 +68,6 @@ def create_expense():
         expense.save()
 
     return jsonify({'message': 'Expense created successfully'}), 201
-
 
 @expenses_blueprint.route('/get_expense/<expense_id>', methods=['GET'])
 @jwt_required()
@@ -102,14 +100,10 @@ def get_all_expenses():
                       'category': exp.category, 'receipt': exp.receipt} for exp in expenses]
     return jsonify(expenses_list), 200
 
-
 @expenses_blueprint.route('/update_expense/<expense_id>', methods=['PUT'])
 @jwt_required()
 def update_expense(expense_id):
-    """ on met a jour la depense"""
-
     try:
-
         expense = Expense.objects.get(id=expense_id)
         data = request.json
         if 'title' in data:
