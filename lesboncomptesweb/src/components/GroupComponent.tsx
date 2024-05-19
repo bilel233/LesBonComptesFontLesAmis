@@ -15,30 +15,31 @@ interface User {
 interface GroupData {
   id: string;
   name: string;
+  creator: string;
+  members: User[];
 }
 
 interface GroupComponentProps {
-  groupData: GroupData;
-  userId: string;
+  userId: string; // Only userId is needed now since we are fetching all groups for the user
 }
 
-const GroupComponent: React.FC<GroupComponentProps> = ({ groupData, userId }) => {
+const GroupComponent: React.FC<GroupComponentProps> = ({ userId }) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [users, setUsers] = useState<User[]>([]);
+  const [groups, setGroups] = useState<GroupData[]>([]);
 
   useEffect(() => {
-    fetchGroupUsers();
-  }, [groupData.id]);
+    fetchUserGroups();
+  }, [userId]);
 
-  const fetchGroupUsers = async () => {
+  const fetchUserGroups = async () => {
+    const token = localStorage.getItem('jwt');
     try {
-      const token = localStorage.getItem('jwt');
-      const response = await axios.get(`http://localhost:5000/group/${groupData.id}`, {
+      const response = await axios.get<GroupData[]>(`http://localhost:5000/group/user/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setUsers(response.data.members);
+      setGroups(response.data);
     } catch (error) {
-      console.error("Error fetching group users:", error);
+      console.error("Error fetching user groups:", error);
     }
   };
 
@@ -55,22 +56,15 @@ const GroupComponent: React.FC<GroupComponentProps> = ({ groupData, userId }) =>
         </TabList>
 
         <TabPanels>
-          <TabPanel>
-            <GroupExpenses groupId={groupData.id} />
-          </TabPanel>
-          <TabPanel>
-            <CreateExpenseForm groupId={groupData.id} users={users} onCreate={fetchGroupUsers} />
-          </TabPanel>
-          <TabPanel>
-            <GroupBalances groupId={groupData.id} />
-          </TabPanel>
-          <TabPanel><p>Contenu des remboursements...</p></TabPanel>
-          <TabPanel>
-            <MessagingComponent groupId={groupData.id} userId={userId} users={users} />
-          </TabPanel>
-          <TabPanel>
-            <InviteMembersForm groupId={groupData.id} />
-          </TabPanel>
+          {groups.map(group => (
+            <TabPanel key={group.id}>
+              <GroupExpenses groupId={group.id} />
+              <CreateExpenseForm groupId={group.id} users={group.members} onCreate={() => fetchUserGroups()} />
+              <GroupBalances groupId={group.id} />
+              <MessagingComponent groupId={group.id} userId={userId} users={group.members} />
+              <InviteMembersForm groupId={group.id} />
+            </TabPanel>
+          ))}
         </TabPanels>
       </Tabs>
     </Box>

@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify
+from app import app
+from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from mongoengine import DoesNotExist, ValidationError, NotUniqueError
 from ..models.group import Group
@@ -214,26 +215,32 @@ def invite_members():
         return jsonify({'msg': 'Groupe non trouvé'}), 404
     except Exception as e:
         return jsonify({'msg': 'Une erreur s\'est produite', 'error': str(e)}), 500
-
-
 @group_blueprint.route('/user/<username>', methods=['GET'])
 @jwt_required()
 def get_groups_by_user(username):
     try:
         user = User.objects.get(username=username)
         groups = Group.objects(members=user)
-        groups_data = [{
-            'id': str(group.id),
-            'name': group.name,
-            'creator': group.creator.username if group.creator else 'Unknown',
-            'members': [{'username': member.username, 'id': str(member.id)} for member in group.members]
-        } for group in groups]
+        groups_data = []
+        for group in groups:
+            members_data = []
+            for member_ref in group.members:
+                member = User.objects.with_id(member_ref.id)
+                if member:
+                    members_data.append({'username': member.username, 'id': str(member.id)})
+            groups_data.append({
+                'id': str(group.id),
+                'name': group.name,
+                'creator': group.creator.username if group.creator else 'Unknown',
+                'members': members_data
+            })
         return jsonify(groups_data), 200
     except DoesNotExist:
         return jsonify({'message': 'User not found'}), 404
     except ValidationError:
         return jsonify({'message': 'Invalid data'}), 400
     except Exception as e:
+        current_app.logger.error(f'Unexpected error: {str(e)}')
         return jsonify({'message': str(e)}), 500
 
 @group_blueprint.route('/user_groups', methods=['GET'])
