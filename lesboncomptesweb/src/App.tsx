@@ -65,24 +65,24 @@ const App: React.FC = () => {
   };
 
   return (
-    <ChakraProvider theme={theme}>
-      {!user ? (
-        <LoginForm
-          onLogin={handleLogin}
-          onLoginWithGoogle={() => { /* Ajouter ici la logique de connexion Google */ }}
-          onLoginWithFacebook={handleLoginWithFacebook}
-        />
-      ) : (
-        <VStack spacing={4}>
-          <Text>Bienvenue, {user.username}</Text>
-          <CreateGroupForm onCreate={handleCreateGroup} />
-          {groups.map(group => (
-            <GroupComponent key={group.id} groupData={group} userId={user.id} />
-          ))}
-        </VStack>
-      )}
-    </ChakraProvider>
-  );
+  <ChakraProvider theme={theme}>
+    {!user ? (
+      <LoginForm
+        onLogin={handleLogin}
+        onLoginWithGoogle={() => {}}
+        onLoginWithFacebook={handleLoginWithFacebook}
+      />
+    ) : (
+      <VStack spacing={4}>
+        <Text>Bienvenue, {user.username}</Text>
+        <CreateGroupForm onCreate={handleCreateGroup} />
+        {groups.map(group => (
+          <GroupComponent key={group.id} userId={user.id} /> // Removed groupData
+        ))}
+      </VStack>
+    )}
+  </ChakraProvider>
+);
 };
 
 export default App;

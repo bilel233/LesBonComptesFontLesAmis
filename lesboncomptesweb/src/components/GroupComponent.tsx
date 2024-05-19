@@ -20,12 +20,12 @@ interface GroupData {
 }
 
 interface GroupComponentProps {
-  userId: string; // Only userId is needed now since we are fetching all groups for the user
-}
+  userId: string;
 
+}
 const GroupComponent: React.FC<GroupComponentProps> = ({ userId }) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [groups, setGroups] = useState<GroupData[]>([]);
+  const [groups, setGroups] = useState<GroupData[]>([]); // Holds all groups the user is a member of
 
   useEffect(() => {
     fetchUserGroups();
@@ -59,7 +59,7 @@ const GroupComponent: React.FC<GroupComponentProps> = ({ userId }) => {
           {groups.map(group => (
             <TabPanel key={group.id}>
               <GroupExpenses groupId={group.id} />
-              <CreateExpenseForm groupId={group.id} users={group.members} onCreate={() => fetchUserGroups()} />
+              <CreateExpenseForm groupId={group.id} users={group.members} onCreate={fetchUserGroups} />
               <GroupBalances groupId={group.id} />
               <MessagingComponent groupId={group.id} userId={userId} users={group.members} />
               <InviteMembersForm groupId={group.id} />
