@@ -71,8 +71,8 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({ groupId, users, o
   formData.append('date', date);
   formData.append('category', category);
   formData.append('group_id', groupId);
-  formData.append('involved_members', JSON.stringify(selectedUsers)); // Convert to JSON
-  formData.append('weights', JSON.stringify(weights)); // Convert to JSON
+  formData.append('involved_members', JSON.stringify(selectedUsers));
+  formData.append('weights', JSON.stringify(weights));
   if (file) {
     formData.append('receipt', file);
   }

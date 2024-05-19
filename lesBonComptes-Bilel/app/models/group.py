@@ -30,7 +30,7 @@ class Group(Document):
                         balances[member.username] -= amount_per_person
                     else:
                         print(
-                            f"Le membre {member.username} n'est pas reconnu comme faisant partie du groupe.")  # Pour débogage
+                            f"Le membre {member.username} n'est pas reconnu comme faisant partie du groupe.")
             else:
                 print(f"La dépense {expense.title} n'a aucun membre impliqué.")
 

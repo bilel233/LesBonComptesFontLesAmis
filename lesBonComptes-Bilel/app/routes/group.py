@@ -175,14 +175,14 @@ def invite_members():
 
     data = request.json
 
-    # Debugging logs
+
     if data is None:
         return jsonify({'msg': 'Aucun JSON reçu. Vérifiez que le corps de la requête est bien formaté.'}), 400
 
     group_id = data.get('group_id')
     usernames = data.get('usernames')
 
-    # More debugging logs
+
     if not group_id:
         return jsonify({'msg': "L'ID du groupe est requis."}), 400
     if not usernames:

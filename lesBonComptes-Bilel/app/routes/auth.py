@@ -100,7 +100,7 @@ def get_all_users():
     """
     Route pour récupérer tous les utilisateurs.
     """
-    # On recupere tous les utilisateurs de la BDD
+
     users = User.objects.all()
 
     users_list = [{'username': user.username} for user in users]
@@ -122,9 +122,9 @@ def facebook_login():
 
     fb_user_email = fb_data.get('email')
     if not fb_user_email:
-        fb_user_email = f"{uuid.uuid4()}@temp.example.com"  # Générer une adresse email temporaire unique
+        fb_user_email = f"{uuid.uuid4()}@temp.example.com"
 
-    fb_user_name = fb_data.get('name', 'Unknown')  # Utilisez un nom par défaut si non fourni
+    fb_user_name = fb_data.get('name', 'Unknown')
 
     # Vérifier si le nom d'utilisateur ou l'email existe déjà
     existing_user_by_username = User.objects(username=fb_user_name).first()
@@ -133,8 +133,8 @@ def facebook_login():
         return jsonify({'message': 'Un utilisateur avec ce nom ou cet email existe déjà'}), 400
 
     try:
-        # Si aucun utilisateur n'existe, créez un nouvel utilisateur
-        temp_password = bcrypt.hashpw(uuid.uuid4().hex.encode(), bcrypt.gensalt())  # Générer un mot de passe temporaire
+
+        temp_password = bcrypt.hashpw(uuid.uuid4().hex.encode(), bcrypt.gensalt())
         user = User(username=fb_user_name, email=fb_user_email, password=temp_password)
         user.save()
         access_token = create_access_token(identity=user.username)

@@ -44,7 +44,7 @@ def create_expense():
         file_data = None
 
     expense_data = request.form
-    expense_date = datetime.strptime(expense_data['date'], '%Y-%m-%d')  # Correction ici
+    expense_date = datetime.strptime(expense_data['date'], '%Y-%m-%d')
     group_id = expense_data.get('group_id')
     group = Group.objects.get(id=group_id)
 

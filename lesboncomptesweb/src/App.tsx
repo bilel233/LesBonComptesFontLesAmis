@@ -1,5 +1,3 @@
-
-// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider, VStack, Text, useToast, theme } from '@chakra-ui/react';
 import axios from 'axios';
@@ -61,7 +59,7 @@ const App: React.FC = () => {
   };
 
   const handleLoginWithFacebook = () => {
-    // La logique de connexion Facebook est gérée directement dans le composant LoginForm.
+
   };
 
   return (

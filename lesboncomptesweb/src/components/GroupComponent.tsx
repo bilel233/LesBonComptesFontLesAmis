@@ -25,7 +25,7 @@ interface GroupComponentProps {
 }
 const GroupComponent: React.FC<GroupComponentProps> = ({ userId }) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [groups, setGroups] = useState<GroupData[]>([]); // Holds all groups the user is a member of
+  const [groups, setGroups] = useState<GroupData[]>([]);
 
   useEffect(() => {
     fetchUserGroups();

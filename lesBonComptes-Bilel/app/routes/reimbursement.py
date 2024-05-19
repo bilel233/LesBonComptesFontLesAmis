@@ -12,17 +12,14 @@ reimbursement_blueprint = Blueprint('reimbursement_blueprint', __name__)
 @jwt_required()
 def get_optimized_reimbursements(group_id):
     try:
-        # On récupère le groupe et on calcule les soldes
+
         group = Group.objects.get(id=group_id)
         balances = group.calculate_balances()
 
-        # On calcule les remboursements optimisés
         reimbursements = calculate_optimal_reimbursements(balances)
 
-        # On enregistre les remboursements optimisés dans la base de données
         save_reimbursements(group_id, reimbursements)
 
-        # On prépare la réponse
         formatted_reimbursements = [
             {"sender": sender, "recipient": recipient, "amount": amount}
             for sender, recipient, amount in reimbursements

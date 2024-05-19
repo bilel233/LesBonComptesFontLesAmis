@@ -61,7 +61,7 @@ const LoginForm: React.FC<LoginProps> = ({ onLogin, onLoginWithGoogle, onLoginWi
   };
 
   const handleFacebookLogin = (response: ReactFacebookLoginInfo | ReactFacebookFailureResponse) => {
-    console.log('Facebook login response:', response); // Log the response to the console
+    console.log('Facebook login response:', response);
     if ('accessToken' in response) {
       axios.post(`${apiUrl}/auth/facebook_login`, {
         accessToken: response.accessToken

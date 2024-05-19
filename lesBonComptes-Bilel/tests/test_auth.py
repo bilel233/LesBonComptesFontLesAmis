@@ -4,7 +4,7 @@ import unittest
 from flask_testing import TestCase
 from mongoengine import connect, disconnect
 
-# Add the project root to the Python path
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from ..app.app import create_app
@@ -23,13 +23,13 @@ class AuthTestCase(TestCase):
         return app
 
     def setUp(self):
-        disconnect()  # Disconnect any existing connections
-        connect('testdb', host='mongodb://localhost/testdb')  # Connect to test database
+        disconnect()
+        connect('testdb', host='mongodb://localhost/testdb')
         self.client = self.app.test_client()
 
     def tearDown(self):
         db.connection.drop_database('testdb')
-        disconnect()  # Disconnect from the test database
+        disconnect()
 
     def test_register_user(self):
         response = self.client.post('/auth/register', json={
