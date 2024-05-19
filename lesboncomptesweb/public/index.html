@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React App</title>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
-    <div id="root"></div>
+  <div id="root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '1554210685119210',
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: 'v12.0'
+      });
+      console.log('FB SDK Initialized');
+    };
+  </script>
 </body>
 </html>

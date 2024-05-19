@@ -1,12 +1,16 @@
+import uuid
+
+import bcrypt
 from flask import request, jsonify, Blueprint, url_for, current_app, flash, redirect
+from flask_dance.consumer import requests
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from ..models.user import User
+import requests
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
-# Configuration du blueprint OAuth Facebook
 facebook_blueprint = make_facebook_blueprint(
     client_id="1554210685119210",
     client_secret="66b0c16ed4ca5f1842d85641fe964a6b",
@@ -104,15 +108,36 @@ def get_all_users():
     return jsonify(users_list), 200
 
 
-# Route pour la connexion via Facebook
-@auth_blueprint.route('/facebook_login')
+@auth_blueprint.route('/facebook_login', methods=['POST'])
 def facebook_login():
-    if not facebook.authorized:
-        return redirect(url_for('facebook.login'))
+    access_token = request.json.get('accessToken')
+    if not access_token:
+        return jsonify({'message': 'Token Facebook manquant'}), 400
+
+    fb_response = requests.get(f'https://graph.facebook.com/me?access_token={access_token}&fields=id,name,email')
+    fb_data = fb_response.json()
+
+    if 'error' in fb_data:
+        return jsonify({'message': 'Token Facebook invalide ou expiré'}), 400
+
+    fb_user_email = fb_data.get('email')
+    if not fb_user_email:
+        fb_user_email = f"{uuid.uuid4()}@temp.example.com"  # Générer une adresse email temporaire unique
+
+    fb_user_name = fb_data.get('name', 'Unknown')  # Utilisez un nom par défaut si non fourni
+
+    # Vérifier si le nom d'utilisateur ou l'email existe déjà
+    existing_user_by_username = User.objects(username=fb_user_name).first()
+    existing_user_by_email = User.objects(email=fb_user_email).first()
+    if existing_user_by_username or existing_user_by_email:
+        return jsonify({'message': 'Un utilisateur avec ce nom ou cet email existe déjà'}), 400
+
     try:
-        resp = facebook.get('/me?fields=id,name,email')
-        resp.raise_for_status()
-        user_info = resp.json()
-        return jsonify(user_info), 200
+        # Si aucun utilisateur n'existe, créez un nouvel utilisateur
+        temp_password = bcrypt.hashpw(uuid.uuid4().hex.encode(), bcrypt.gensalt())  # Générer un mot de passe temporaire
+        user = User(username=fb_user_name, email=fb_user_email, password=temp_password)
+        user.save()
+        access_token = create_access_token(identity=user.username)
+        return jsonify(access_token=access_token, user_id=str(user.id)), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({'message': 'Un problème est survenu lors de la création de l’utilisateur', 'error': str(e)}), 500

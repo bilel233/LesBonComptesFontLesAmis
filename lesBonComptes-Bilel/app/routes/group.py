@@ -21,6 +21,10 @@ def create_group():
     if not name:
         return jsonify({'msg': 'Missing group name'}), 400
 
+
+    if Group.objects(name=name, creator=current_user):
+        return jsonify({'msg': 'Group name already used by this user'}), 400
+
     try:
         group = Group(name=name, members=[current_user], creator=current_user)
         group.save()
@@ -31,9 +35,10 @@ def create_group():
         }), 201
     except ValidationError as e:
         return jsonify({'msg': str(e)}), 400
+    except NotUniqueError:
+        return jsonify({'msg': 'Group name must be unique'}), 400
     except Exception as e:
         return jsonify({'msg': 'An unexpected error occurred', 'error': str(e)}), 500
-
 @group_blueprint.route('/join/<group_id>', methods=['POST'])
 @jwt_required()
 def join_group(group_id):
@@ -217,6 +222,28 @@ def get_groups_by_user(username):
     try:
         user = User.objects.get(username=username)
         groups = Group.objects(members=user)
+        groups_data = [{
+            'id': str(group.id),
+            'name': group.name,
+            'creator': group.creator.username if group.creator else 'Unknown',
+            'members': [{'username': member.username, 'id': str(member.id)} for member in group.members]
+        } for group in groups]
+        return jsonify(groups_data), 200
+    except DoesNotExist:
+        return jsonify({'message': 'User not found'}), 404
+    except ValidationError:
+        return jsonify({'message': 'Invalid data'}), 400
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+@group_blueprint.route('/user_groups', methods=['GET'])
+@jwt_required()
+def get_user_groups():
+    """recupere les groupes de l'utilisateur """
+    current_user_username = get_jwt_identity()
+    try:
+        current_user = User.objects.get(username=current_user_username)
+        groups = Group.objects(members=current_user)
         groups_data = [{
             'id': str(group.id),
             'name': group.name,

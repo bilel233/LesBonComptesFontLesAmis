@@ -53,56 +53,56 @@ const CreateExpenseForm: React.FC<CreateExpenseFormProps> = ({ groupId, users, o
   };
 
   const handleSubmit = async () => {
-    const token = localStorage.getItem('jwt');
-    if (!token) {
-      toast({
-        title: 'Authentication Error',
-        description: 'No token found, please login again.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-      return;
-    }
+  const token = localStorage.getItem('jwt');
+  if (!token) {
+    toast({
+      title: 'Authentication Error',
+      description: 'No token found, please login again.',
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('amount', amount.toString());
-    formData.append('date', date);
-    formData.append('category', category);
-    formData.append('group_id', groupId);
-    formData.append('involved_members', JSON.stringify(selectedUsers));
-    formData.append('weights', JSON.stringify(weights));
-    if (file) {
-      formData.append('receipt', file);
-    }
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('amount', amount.toString());
+  formData.append('date', date);
+  formData.append('category', category);
+  formData.append('group_id', groupId);
+  formData.append('involved_members', JSON.stringify(selectedUsers)); // Convert to JSON
+  formData.append('weights', JSON.stringify(weights)); // Convert to JSON
+  if (file) {
+    formData.append('receipt', file);
+  }
 
-    try {
-      const response = await axios.post('http://localhost:5000/expenses/create_expense', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+  try {
+    const response = await axios.post('http://localhost:5000/expenses/create_expense', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
-      toast({
-        title: 'Expense Created',
-        description: 'Your expense has been created successfully.',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-      onCreate();
-    } catch (error) {
-      toast({
-        title: 'Failed to create expense',
-        description: error.response?.data?.message || "Unexpected error occurred",
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  };
+    toast({
+      title: 'Expense Created',
+      description: 'Your expense has been created successfully.',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    onCreate();
+  } catch (error) {
+    toast({
+      title: 'Failed to create expense',
+      description: error.response?.data?.message || "Unexpected error occurred",
+      status: 'error',
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+};
 
   return (
     <Box p={5} shadow="md" borderWidth="1px" width={formWidth}>

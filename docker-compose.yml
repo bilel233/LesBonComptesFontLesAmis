@@ -1,7 +1,9 @@
 version: '3.8'
 services:
-  app:
-    build: .
+  api:
+    build:
+      context: ./lesBonComptes-Bilel
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     environment:
@@ -10,7 +12,17 @@ services:
     depends_on:
       - mongo
     volumes:
-      - .:/app
+      - ./lesBonComptes-Bilel:/app
+
+  client:
+    build:
+      context: ./lesboncomptesweb
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
   mongo:
     image: mongo:latest
     environment:
