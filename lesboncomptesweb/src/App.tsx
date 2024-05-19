@@ -77,7 +77,7 @@ const App: React.FC = () => {
         <Text>Bienvenue, {user.username}</Text>
         <CreateGroupForm onCreate={handleCreateGroup} />
         {groups.map(group => (
-          <GroupComponent key={group.id} userId={user.id} /> // Removed groupData
+          <GroupComponent key={group.id} userId={user.id} />
         ))}
       </VStack>
     )}

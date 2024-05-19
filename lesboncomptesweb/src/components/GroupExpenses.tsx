@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Button,
-  Flex,
-  Select,
-  VStack,
-  useToast,
-  Text
-} from '@chakra-ui/react';
+import { Box, Flex, Select, Text, VStack, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 
 interface Expense {
@@ -19,7 +11,6 @@ interface Expense {
   category: string;
   involved_members: string[];
   weights: number[];
-  group: string;
 }
 
 interface ExpenseProps {
@@ -38,23 +29,34 @@ const GroupExpenses: React.FC<ExpenseProps> = ({ groupId }) => {
   const fetchExpenses = async () => {
     try {
       const token = localStorage.getItem('jwt');
-      const response = await axios.get(`http://localhost:5000/expenses/get_all_expenses`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      let expenses = response.data.filter((expense: Expense) => expense.group === groupId);
-
-      switch (sortBy) {
-        case 'amount':
-          expenses.sort((a: Expense, b: Expense) => b.amount - a.amount);
-          break;
-        case 'payer':
-          expenses.sort((a: Expense, b: Expense) => a.payer.localeCompare(b.payer));
-          break;
-        default:
-          expenses.sort((a: Expense, b: Expense) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      if (!token) {
+        toast({
+          title: 'Authentication Error',
+          description: 'Please log in again.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
       }
 
-      setExpenses(expenses);
+      const response = await axios.get<Expense[]>(`http://localhost:5000/expenses/get_all_expenses_by_group/${groupId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      let sortedExpenses = response.data;
+      switch (sortBy) {
+        case 'amount':
+          sortedExpenses.sort((a, b) => b.amount - a.amount);
+          break;
+        case 'payer':
+          sortedExpenses.sort((a, b) => a.payer.localeCompare(b.payer));
+          break;
+        default:
+          sortedExpenses.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      }
+
+      setExpenses(sortedExpenses);
     } catch (error) {
       toast({
         title: 'Failed to fetch expenses',
