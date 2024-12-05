@@ -15,15 +15,15 @@ def user_statistics():
     if not user:
         return jsonify({'message': 'Utilisateur non trouvé'}), 404
 
-    # On calcule les depenses totales
+
     total_expenses = Expense.objects(payer=user).sum('amount')
 
-    # On calcule les depenses par categories
+
     expenses_by_category = Expense.objects(payer=user).aggregate([
         {"$group": {"_id": "$category", "total": {"$sum": "$amount"}}}
     ])
 
-    # On calcule les depense par mois
+
     expenses_by_month = Expense.objects(payer=user).aggregate([
         {"$group": {
             "_id": {"month": {"$month": "$date"}, "year": {"$year": "$date"}},

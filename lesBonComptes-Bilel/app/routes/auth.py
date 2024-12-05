@@ -1,19 +1,23 @@
+import uuid
 
+import bcrypt
 from flask import request, jsonify, Blueprint, url_for, current_app, flash, redirect
+from flask_dance.consumer import requests
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from ..models.user import User
-
+import requests
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 
-# Configuration du blueprint OAuth Facebook
 facebook_blueprint = make_facebook_blueprint(
     client_id="1554210685119210",
     client_secret="66b0c16ed4ca5f1842d85641fe964a6b",
-    redirect_to='auth.facebook_login'
+    redirect_to='facebook_login'
 )
+
+
 
 @auth_blueprint.route('/register', methods=['POST'])
 def register():
@@ -21,18 +25,14 @@ def register():
     username = data.get('username')
     password = data.get('password')
 
-
     if not username or not password:
         return jsonify({'message': 'Le nom d’utilisateur et le mot de passe sont requis'}), 400
-
 
     if len(password) < 8:
         return jsonify({'message': 'Le mot de passe doit contenir au moins 8 caractères'}), 400
 
-
     if User.objects(username=username).first() is not None:
         return jsonify({'message': "Nom d'utilisateur déjà pris"}), 400
-
 
     user = User.create_user(username, password)
     return jsonify({'message': f'Utilisateur {user.username} créé avec succès'}), 201
@@ -51,6 +51,7 @@ def login():
         return jsonify(access_token=access_token), 200
     else:
         return jsonify({'message': 'Identifiants invalides'}), 401
+
 
 @auth_blueprint.route('/user/<username>', methods=['GET'])
 @jwt_required()
@@ -99,22 +100,44 @@ def get_all_users():
     """
     Route pour récupérer tous les utilisateurs.
     """
-    # On recupere tous les utilisateurs de la BDD
-    users = User.objects.all()
 
+    users = User.objects.all()
 
     users_list = [{'username': user.username} for user in users]
 
     return jsonify(users_list), 200
 
 
-
-# Route pour la connexion via Facebook
-@auth_blueprint.route('/facebook_login')
+@auth_blueprint.route('/facebook_login', methods=['POST'])
 def facebook_login():
-    if not facebook.authorized:
-        return redirect(url_for('facebook.login'))
-    resp = facebook.get('/me?fields=id,name,email')
-    assert resp.ok, resp.text
-    # Gestion des données de l'utilisateur
-    return f"Bonjour, {resp.json()['name']}!"
+    access_token = request.json.get('accessToken')
+    if not access_token:
+        return jsonify({'message': 'Token Facebook manquant'}), 400
+
+    fb_response = requests.get(f'https://graph.facebook.com/me?access_token={access_token}&fields=id,name,email')
+    fb_data = fb_response.json()
+
+    if 'error' in fb_data:
+        return jsonify({'message': 'Token Facebook invalide ou expiré'}), 400
+
+    fb_user_email = fb_data.get('email')
+    if not fb_user_email:
+        fb_user_email = f"{uuid.uuid4()}@temp.example.com"
+
+    fb_user_name = fb_data.get('name', 'Unknown')
+
+    # Vérifier si le nom d'utilisateur ou l'email existe déjà
+    existing_user_by_username = User.objects(username=fb_user_name).first()
+    existing_user_by_email = User.objects(email=fb_user_email).first()
+    if existing_user_by_username or existing_user_by_email:
+        return jsonify({'message': 'Un utilisateur avec ce nom ou cet email existe déjà'}), 400
+
+    try:
+
+        temp_password = bcrypt.hashpw(uuid.uuid4().hex.encode(), bcrypt.gensalt())
+        user = User(username=fb_user_name, email=fb_user_email, password=temp_password)
+        user.save()
+        access_token = create_access_token(identity=user.username)
+        return jsonify(access_token=access_token, user_id=str(user.id)), 200
+    except Exception as e:
+        return jsonify({'message': 'Un problème est survenu lors de la création de l’utilisateur', 'error': str(e)}), 500

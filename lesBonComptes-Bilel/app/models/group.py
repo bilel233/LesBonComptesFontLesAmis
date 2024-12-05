@@ -3,7 +3,7 @@ from mongoengine.fields import StringField, ListField, ReferenceField
 
 
 class Group(Document):
-    name = StringField(required=True, unique=True)
+    name = StringField(required=True,unique=True)
     members = ListField(ReferenceField('User'))
     creator = ReferenceField('User', required=True)
 
@@ -30,7 +30,7 @@ class Group(Document):
                         balances[member.username] -= amount_per_person
                     else:
                         print(
-                            f"Le membre {member.username} n'est pas reconnu comme faisant partie du groupe.")  # Pour débogage
+                            f"Le membre {member.username} n'est pas reconnu comme faisant partie du groupe.")
             else:
                 print(f"La dépense {expense.title} n'a aucun membre impliqué.")
 
